@@ -1,0 +1,186 @@
+<div class="grid">
+  <!-- ************************************PRIMER POST*************************************************-->  
+  <div class="container" style="width: 100%;">
+    <h1>PRIMER POST (ReqRes)</h1>
+
+    <!-- Input para la URL del API -->
+    <div class="form">
+      <label>API Base URL (ReqRes)</label>
+      <input
+        type="text"
+        [(ngModel)]="apiBaseUrl"
+        placeholder="https://crudcrud.com/api/XXXX"
+      />
+    </div>
+
+    <hr />
+
+    <!-- Formulario del POST -->
+    <div class="form">
+      <label>Product</label>
+      <input type="text" [(ngModel)]="form.product" placeholder="Producto..." />
+
+      <label>Precio</label>
+      <input type="text" [(ngModel)]="form.price" placeholder="Precio..."/>
+
+      <label>Descripcion</label>
+      <input type="text" [(ngModel)]="form.description" placeholder="Descripcion..." />
+
+      <label>Categoria</label>
+      <input type="text" [(ngModel)]="form.category" placeholder="Categoria..."/>
+
+      <button (click)="ProductPost()" [disabled]="loading">
+        {{ loading ? 'Enviando...' : 'Enviar POST' }}
+      </button>
+    </div>
+
+    <!-- Error -->
+    <p *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </p>
+
+    <!-- Resultado del POST -->
+    <div *ngIf="createdPost" class="card">
+      <h2>✅ Creado</h2>
+      <pre>{{ createdPost | json }}</pre>
+    </div>
+  </div>
+  <!-- ************************************SEGUNDO POST*************************************************-->  
+  <div class="container" style="width: 100%;">
+    <h1>SEGUNDO POST (ReqRes)</h1>
+
+    <!-- Input para la URL del API -->
+    <div class="form">
+      <label>API Base URL (ReqRes)</label>
+      <input
+        type="text"
+        [(ngModel)]="apiBaseUrl"
+        placeholder="https://crudcrud.com/api/XXXX"
+      />
+    </div>
+
+    <hr />
+
+    <!-- Formulario del POST -->
+    <div class="form">
+      <label>Email</label>
+      <input type="text" [(ngModel)]="form2.email" placeholder="Nombre..." />
+
+      <label>Apelido Paterno</label>
+      <input type="text" [(ngModel)]="form2.firstname" placeholder="Trabajo..."/>
+
+      <label>Apellido Materno</label>
+      <input type="text" [(ngModel)]="form2.lastname" placeholder="Nombre..." />
+
+      <label>Contraseña</label>
+      <input type="text" [(ngModel)]="form2.password" placeholder="Trabajo..."/>
+
+      <label>Nombre</label>
+      <input type="text" [(ngModel)]="form2.username" placeholder="Nombre..." />
+
+      <button (click)="UserPost()" [disabled]="loading">
+        {{ loadingUser ? 'Enviando...' : 'Enviar POST' }}
+      </button>
+    </div>
+
+    <!-- Error -->
+    <p *ngIf="errorMessageUser" class="error">
+      {{ errorMessageUser }}
+    </p>
+
+    <!-- Resultado del POST -->
+    <div *ngIf="createdPostUser" class="card">
+      <h2>✅ Creado</h2>
+      <pre>{{ createdPostUser | json }}</pre>
+    </div>
+  </div>
+
+  <!-- ************************************TERCER POST*************************************************-->  
+  <div class="container" style="width: 100%;">
+    <h1>TERCER POST (ReqRes)</h1>
+
+    <!-- Input para la URL del API -->
+    <div class="form">
+      <label>API Base URL (ReqRes)</label>
+      <input
+        type="text"
+        [(ngModel)]="apiBaseUrl"
+        placeholder="https://crudcrud.com/api/XXXX"
+      />
+    </div>
+
+    <hr />
+
+    <!-- Formulario del POST -->
+    <div class="form">
+      <label>UsuarioId</label>
+      <input type="text" [(ngModel)]="form3.userId" placeholder="Nombre..." />
+
+      <label>Fecha</label>
+      <input type="text" [(ngModel)]="form3.date" placeholder="Ejemplo fecha: 2020-03-12"/>
+
+      <label>ProductoId</label>
+      <input type="text" [(ngModel)]="form3.products[0].productId" placeholder="Nombre..." />
+
+      <label>Cantidad</label>
+      <input type="text" [(ngModel)]="form3.products[0].quantity" placeholder="Trabajo..."/>
+
+      <button (click)="CartPost()" [disabled]="loadingCart">
+        {{ loadingCart ? 'Enviando...' : 'Enviar POST' }}
+      </button>
+    </div>
+
+    <!-- Error -->
+    <p *ngIf="errorMessageCart" class="error">
+      {{ errorMessageCart }}
+    </p>
+
+    <!-- Resultado del POST -->
+    <div *ngIf="cartPostUser" class="card">
+      <h2>✅ Creado</h2>
+      <pre>{{ cartPostUser | json }}</pre>
+    </div>
+  </div>
+
+  <!-- ************************************CUARTO POST*************************************************-->  
+  <div class="container" style="width: 100%;">
+    <h1>CUARTO POST (ReqRes)</h1>
+
+    <!-- Input para la URL del API -->
+    <div class="form">
+      <label>API Base URL (ReqRes)</label>
+      <input
+        type="text"
+        [(ngModel)]="apiBaseUrl"
+        placeholder="https://crudcrud.com/api/XXXX"
+      />
+    </div>
+
+    <hr />
+
+    <!-- Formulario del POST -->
+    <div class="form">
+      <label>Nombre</label>
+      <input type="text" placeholder="Nombre..." />
+
+      <label>Trabajo</label>
+      <input type="text" placeholder="Trabajo..."/>
+
+      <button (click)="ProductPost()" [disabled]="loading">
+        {{ loading ? 'Enviando...' : 'Enviar POST' }}
+      </button>
+    </div>
+
+    <!-- Error -->
+    <p *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </p>
+
+    <!-- Resultado del POST -->
+    <div *ngIf="createdPost" class="card">
+      <h2>✅ Creado</h2>
+      <pre>{{ createdPost | json }}</pre>
+    </div>
+  </div>
+
+</div>
