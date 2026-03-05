@@ -1,186 +1,193 @@
-<div class="grid">
-  <!-- ************************************PRIMER POST*************************************************-->  
-  <div class="container" style="width: 100%;">
-    <h1>PRIMER POST (ReqRes)</h1>
+<div class="page-wrapper">
 
-    <!-- Input para la URL del API -->
-    <div class="form">
-      <label>API Base URL (ReqRes)</label>
-      <input
-        type="text"
-        [(ngModel)]="apiBaseUrl"
-        placeholder="https://crudcrud.com/api/XXXX"
-      />
+  <header class="page-header">
+    <div class="header-glow"></div>
+    <p class="header-eyebrow">FakeStore API</p>
+    <h1 class="page-title">POST</h1>
+  </header>
+
+  <div class="grid">
+
+    <!-- ═══════════════════════════════════════════
+         PRIMER POST — Producto
+    ═══════════════════════════════════════════ -->
+    <div class="card">
+      <div class="card-header card-header--blue">
+        <div class="badge-wrap">
+          <span class="badge">01</span>
+        </div>
+        <h2>Crear Producto</h2>
+        <p class="endpoint">POST /products</p>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label>Título</label>
+          <input type="text" [(ngModel)]="form.title" placeholder="Ej: Camiseta negra" />
+        </div>
+        <div class="field">
+          <label>Precio</label>
+          <input type="number" [(ngModel)]="form.price" placeholder="0.00" min="0" />
+        </div>
+        <div class="field">
+          <label>Descripción</label>
+          <input type="text" [(ngModel)]="form.description" placeholder="Descripción del producto..." />
+        </div>
+        <div class="field">
+          <label>Categoría</label>
+          <input type="text" [(ngModel)]="form.category" placeholder="Ej: electronics" />
+        </div>
+        <div class="field">
+          <label>URL de imagen</label>
+          <input type="text" [(ngModel)]="form.image" placeholder="https://..." />
+        </div>
+        <button class="btn btn--blue" (click)="ProductPost()" [disabled]="loading">
+          <span *ngIf="!loading">Enviar POST</span>
+          <span *ngIf="loading">Enviando...</span>
+        </button>
+        <p *ngIf="errorMessage" class="msg msg--error">⚠ {{ errorMessage }}</p>
+        <div *ngIf="createdPost" class="result">
+          <p class="result-title">✔ Producto creado</p>
+          <pre>{{ createdPost | json }}</pre>
+        </div>
+      </div>
     </div>
 
-    <hr />
+    <!-- ═══════════════════════════════════════════
+         SEGUNDO POST — Usuario completo
+    ═══════════════════════════════════════════ -->
+    <div class="card">
+      <div class="card-header card-header--pink">
+        <div class="badge-wrap">
+          <span class="badge">02</span>
+        </div>
+        <h2>Crear Usuario</h2>
+        <p class="endpoint">POST /users</p>
+      </div>
+      <div class="card-body">
+        <p class="section-label">// Identidad</p>
+        <div class="field-row">
+          <div class="field">
+            <label>Nombre</label>
+            <input type="text" [(ngModel)]="form2.firstname" placeholder="Juan" />
+          </div>
+          <div class="field">
+            <label>Apellido</label>
+            <input type="text" [(ngModel)]="form2.lastname" placeholder="Pérez" />
+          </div>
+        </div>
 
-    <!-- Formulario del POST -->
-    <div class="form">
-      <label>Product</label>
-      <input type="text" [(ngModel)]="form.product" placeholder="Producto..." />
+        <p class="section-label">// Acceso</p>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="form2.email" placeholder="juan@correo.com" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Usuario</label>
+            <input type="text" [(ngModel)]="form2.username" placeholder="juanp123" />
+          </div>
+          <div class="field">
+            <label>Contraseña</label>
+            <input type="password" [(ngModel)]="form2.password" placeholder="••••••" />
+          </div>
+        </div>
 
-      <label>Precio</label>
-      <input type="text" [(ngModel)]="form.price" placeholder="Precio..."/>
+        <p class="section-label">// Contacto</p>
+        <div class="field">
+          <label>Teléfono</label>
+          <input type="text" [(ngModel)]="form2.phone" placeholder="+52 555 000 0000" />
+        </div>
 
-      <label>Descripcion</label>
-      <input type="text" [(ngModel)]="form.description" placeholder="Descripcion..." />
+        <p class="section-label">// Dirección</p>
+        <div class="field-row">
+          <div class="field">
+            <label>Ciudad</label>
+            <input type="text" [(ngModel)]="form2.city" placeholder="CDMX" />
+          </div>
+          <div class="field">
+            <label>Calle</label>
+            <input type="text" [(ngModel)]="form2.street" placeholder="Av. Reforma" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Número</label>
+            <input type="number" [(ngModel)]="form2.number" placeholder="123" />
+          </div>
+          <div class="field">
+            <label>Código Postal</label>
+            <input type="text" [(ngModel)]="form2.zipcode" placeholder="06600" />
+          </div>
+        </div>
 
-      <label>Categoria</label>
-      <input type="text" [(ngModel)]="form.category" placeholder="Categoria..."/>
-
-      <button (click)="ProductPost()" [disabled]="loading">
-        {{ loading ? 'Enviando...' : 'Enviar POST' }}
-      </button>
+        <button class="btn btn--pink" (click)="UserPost()" [disabled]="loadingUser">
+          <span *ngIf="!loadingUser">Enviar POST</span>
+          <span *ngIf="loadingUser">Enviando...</span>
+        </button>
+        <p *ngIf="errorMessageUser" class="msg msg--error">⚠ {{ errorMessageUser }}</p>
+        <div *ngIf="createdPostUser" class="result">
+          <p class="result-title">✔ Usuario creado — ID: {{ createdPostUser.id }}</p>
+          <pre>{{ createdPostUser | json }}</pre>
+        </div>
+      </div>
     </div>
 
-    <!-- Error -->
-    <p *ngIf="errorMessage" class="error">
-      {{ errorMessage }}
-    </p>
+    <!-- ═══════════════════════════════════════════
+         TERCER POST — Carrito
+    ═══════════════════════════════════════════ -->
+    <div class="card">
+      <div class="card-header card-header--green">
+        <div class="badge-wrap">
+          <span class="badge">03</span>
+        </div>
+        <h2>Crear Carrito</h2>
+        <p class="endpoint">POST /carts</p>
+      </div>
+      <div class="card-body">
+        <div class="field-row">
+          <div class="field">
+            <label>ID de Usuario</label>
+            <input type="number" [(ngModel)]="form3.userId" placeholder="1" min="1" />
+          </div>
+          <div class="field">
+            <label>Fecha</label>
+            <input type="date" [(ngModel)]="form3.date" />
+          </div>
+        </div>
+        <div class="products-section">
+          <p class="section-label">// Producto en el carrito</p>
+          <div class="field-row">
+            <div class="field">
+              <label>ID Producto</label>
+              <input type="number" [(ngModel)]="form3.products[0].productId" placeholder="1" min="1" />
+            </div>
+            <div class="field">
+              <label>Cantidad</label>
+              <input type="number" [(ngModel)]="form3.products[0].quantity" placeholder="1" min="1" />
+            </div>
+          </div>
+        </div>
+        <button class="btn btn--green" (click)="CartPost()" [disabled]="loadingCart">
+          <span *ngIf="!loadingCart">Enviar POST</span>
+          <span *ngIf="loadingCart">Enviando...</span>
+        </button>
+        <p *ngIf="errorMessageCart" class="msg msg--error">⚠ {{ errorMessageCart }}</p>
+        <div *ngIf="cartPostUser" class="result">
+          <p class="result-title">✔ Carrito creado</p>
+          <pre>{{ cartPostUser | json }}</pre>
+        </div>
+      </div>
+    </div>
 
-    <!-- Resultado del POST -->
-    <div *ngIf="createdPost" class="card">
-      <h2>✅ Creado</h2>
-      <pre>{{ createdPost | json }}</pre>
+    <!-- ═══════════════════════════════════════════
+         CUARTO POST — Espacio reservado
+    ═══════════════════════════════════════════ -->
+    <div class="card card--placeholder">
+      <div class="placeholder-inner">
+        <span class="placeholder-badge">04</span>
+        <p class="placeholder-title">Próximamente</p>
+        <p class="placeholder-sub">Espacio reservado para el cuarto POST</p>
+      </div>
     </div>
   </div>
-  <!-- ************************************SEGUNDO POST*************************************************-->  
-  <div class="container" style="width: 100%;">
-    <h1>SEGUNDO POST (ReqRes)</h1>
-
-    <!-- Input para la URL del API -->
-    <div class="form">
-      <label>API Base URL (ReqRes)</label>
-      <input
-        type="text"
-        [(ngModel)]="apiBaseUrl"
-        placeholder="https://crudcrud.com/api/XXXX"
-      />
-    </div>
-
-    <hr />
-
-    <!-- Formulario del POST -->
-    <div class="form">
-      <label>Email</label>
-      <input type="text" [(ngModel)]="form2.email" placeholder="Nombre..." />
-
-      <label>Apelido Paterno</label>
-      <input type="text" [(ngModel)]="form2.firstname" placeholder="Trabajo..."/>
-
-      <label>Apellido Materno</label>
-      <input type="text" [(ngModel)]="form2.lastname" placeholder="Nombre..." />
-
-      <label>Contraseña</label>
-      <input type="text" [(ngModel)]="form2.password" placeholder="Trabajo..."/>
-
-      <label>Nombre</label>
-      <input type="text" [(ngModel)]="form2.username" placeholder="Nombre..." />
-
-      <button (click)="UserPost()" [disabled]="loading">
-        {{ loadingUser ? 'Enviando...' : 'Enviar POST' }}
-      </button>
-    </div>
-
-    <!-- Error -->
-    <p *ngIf="errorMessageUser" class="error">
-      {{ errorMessageUser }}
-    </p>
-
-    <!-- Resultado del POST -->
-    <div *ngIf="createdPostUser" class="card">
-      <h2>✅ Creado</h2>
-      <pre>{{ createdPostUser | json }}</pre>
-    </div>
-  </div>
-
-  <!-- ************************************TERCER POST*************************************************-->  
-  <div class="container" style="width: 100%;">
-    <h1>TERCER POST (ReqRes)</h1>
-
-    <!-- Input para la URL del API -->
-    <div class="form">
-      <label>API Base URL (ReqRes)</label>
-      <input
-        type="text"
-        [(ngModel)]="apiBaseUrl"
-        placeholder="https://crudcrud.com/api/XXXX"
-      />
-    </div>
-
-    <hr />
-
-    <!-- Formulario del POST -->
-    <div class="form">
-      <label>UsuarioId</label>
-      <input type="text" [(ngModel)]="form3.userId" placeholder="Nombre..." />
-
-      <label>Fecha</label>
-      <input type="text" [(ngModel)]="form3.date" placeholder="Ejemplo fecha: 2020-03-12"/>
-
-      <label>ProductoId</label>
-      <input type="text" [(ngModel)]="form3.products[0].productId" placeholder="Nombre..." />
-
-      <label>Cantidad</label>
-      <input type="text" [(ngModel)]="form3.products[0].quantity" placeholder="Trabajo..."/>
-
-      <button (click)="CartPost()" [disabled]="loadingCart">
-        {{ loadingCart ? 'Enviando...' : 'Enviar POST' }}
-      </button>
-    </div>
-
-    <!-- Error -->
-    <p *ngIf="errorMessageCart" class="error">
-      {{ errorMessageCart }}
-    </p>
-
-    <!-- Resultado del POST -->
-    <div *ngIf="cartPostUser" class="card">
-      <h2>✅ Creado</h2>
-      <pre>{{ cartPostUser | json }}</pre>
-    </div>
-  </div>
-
-  <!-- ************************************CUARTO POST*************************************************-->  
-  <div class="container" style="width: 100%;">
-    <h1>CUARTO POST (ReqRes)</h1>
-
-    <!-- Input para la URL del API -->
-    <div class="form">
-      <label>API Base URL (ReqRes)</label>
-      <input
-        type="text"
-        [(ngModel)]="apiBaseUrl"
-        placeholder="https://crudcrud.com/api/XXXX"
-      />
-    </div>
-
-    <hr />
-
-    <!-- Formulario del POST -->
-    <div class="form">
-      <label>Nombre</label>
-      <input type="text" placeholder="Nombre..." />
-
-      <label>Trabajo</label>
-      <input type="text" placeholder="Trabajo..."/>
-
-      <button (click)="ProductPost()" [disabled]="loading">
-        {{ loading ? 'Enviando...' : 'Enviar POST' }}
-      </button>
-    </div>
-
-    <!-- Error -->
-    <p *ngIf="errorMessage" class="error">
-      {{ errorMessage }}
-    </p>
-
-    <!-- Resultado del POST -->
-    <div *ngIf="createdPost" class="card">
-      <h2>✅ Creado</h2>
-      <pre>{{ createdPost | json }}</pre>
-    </div>
-  </div>
-
 </div>

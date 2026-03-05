@@ -35,5 +35,8 @@
       }
     }
   },
-  "defaultProject": "crudcrud-post-demo"
+  "defaultProject": "crudcrud-post-demo",
+  "cli": {
+    "analytics": "e25851a4-5cc0-4eef-a073-a9ced22cfe2f"
+  }
 }

@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import {
   CrudCrudPostsService,
   CreateProduct, ProductResponse,
-  UserResponse, CreateUser,
-  CreateCart, CartResponse
+  CreateUser,    UserResponse,
+  CreateCart,    CartResponse
 } from './crudcrud-posts.service';
 
 @Component({
@@ -18,157 +18,100 @@ import {
 })
 export class AppComponent {
 
-  // URL dinámica que el usuario puede cambiar
-  apiBaseUrl: string = 'https://fakestoreapi.com/products';
+  constructor(private postsApi: CrudCrudPostsService) {}
 
-  form: CreateProduct = {
-    product: '',
-    price: 0,
-    description: '',
-    category: ''
-  };
+  /* ══════════════════════════════════════════════════
+     PRIMER POST — Producto (ngModel)
+  ══════════════════════════════════════════════════ */
+  productUrl = 'https://fakestoreapi.com/products';
+
+  form: CreateProduct = { title: '', price: 0, description: '', category: '', image: '' };
 
   createdPost: ProductResponse | null = null;
-
-  loading = false;
+  loading      = false;
   errorMessage = '';
-
-  constructor(private postsApi: CrudCrudPostsService) {}
 
   ProductPost(): void {
     this.errorMessage = '';
-    this.createdPost = null;
+    this.createdPost  = null;
 
-    if (!this.apiBaseUrl.trim()) {
-      this.errorMessage = 'La URL del API es obligatoria.';
-      return;
-    }
-
-    if (!this.form.product.trim() || this.form.price <= 0 || !this.form.description.trim() || !this.form.category.trim()) {
-      this.errorMessage = 'Todos los datos necesarios.';
+    if (!this.form.title.trim() || this.form.price <= 0 ||
+        !this.form.description.trim() || !this.form.category.trim()) {
+      this.errorMessage = 'Todos los campos son obligatorios.';
       return;
     }
 
     this.loading = true;
-
-    this.postsApi.createProduct(this.apiBaseUrl.trim(), this.form)
-      .subscribe({
-        next: (res) => {
-          this.createdPost = res;
-          this.loading = false;
-        },
-        error: (err) => {
-          this.loading = false;
-
-          console.error('STATUS:', err.status);
-          console.error('ERROR BODY:', err.error);
-          console.error('FULL ERROR:', err);
-
-          this.errorMessage = `Error ${err.status}`;
-        }
-      });
+    this.postsApi.createProduct(this.productUrl, this.form).subscribe({
+      next: res  => { this.createdPost  = res;  this.loading = false; },
+      error: err => { this.errorMessage = `Error ${err.status}`; this.loading = false; }
+    });
   }
-//******************************************************************************segundoPost */
-  userBaseUrl: string = 'https://fakestoreapi.com/users';
+
+  /* ══════════════════════════════════════════════════
+     SEGUNDO POST — Usuario completo (ngModel)
+     Campos: identidad, acceso, contacto, dirección
+  ══════════════════════════════════════════════════ */
+  userUrl = 'https://fakestoreapi.com/users';
 
   form2: CreateUser = {
-    email: '',
-    username: '',
-    password: '',
-    firstname: '',
-    lastname: '',
+    email: '', username: '', password: '',
+    firstname: '', lastname: '', phone: '',
+    city: '', street: '', number: 0, zipcode: ''
   };
 
   createdPostUser: UserResponse | null = null;
-
-  loadingUser = false;
+  loadingUser      = false;
   errorMessageUser = '';
 
-  UserPost(): void{
+  UserPost(): void {
     this.errorMessageUser = '';
-    this.createdPostUser = null;
+    this.createdPostUser  = null;
 
-    if (!this.userBaseUrl.trim()) {
-      this.errorMessageUser = 'La URL del API es obligatoria.';
-      return;
-    }
-
-    if (!this.form2.email.trim() || !this.form2.firstname.trim() 
-        || !this.form2.lastname.trim() || !this.form2.password.trim() || !this.form2.username.trim()) {
-      this.errorMessageUser = 'Todos los datos necesarios.';
+    const f = this.form2;
+    if (!f.email.trim() || !f.username.trim() || !f.password.trim() ||
+        !f.firstname.trim() || !f.lastname.trim() || !f.phone.trim() ||
+        !f.city.trim() || !f.street.trim() || f.number <= 0 || !f.zipcode.trim()) {
+      this.errorMessageUser = 'Todos los campos son obligatorios.';
       return;
     }
 
     this.loadingUser = true;
-
-    this.postsApi.createUser(this.userBaseUrl.trim(), this.form2)
-      .subscribe({
-        next: (res) => {
-          this.createdPostUser = res;
-          this.loadingUser = false;
-        },
-        error: (err) => {
-          this.loadingUser = false;
-
-          console.error('STATUS:', err.status);
-          console.error('ERROR BODY:', err.error);
-          console.error('FULL ERROR:', err);
-
-          this.errorMessageUser = `Error ${err.status}`;
-        }
-      });
+    this.postsApi.createUser(this.userUrl, this.form2).subscribe({
+      next: res  => { this.createdPostUser  = res;  this.loadingUser = false; },
+      error: err => { this.errorMessageUser = `Error ${err.status}`; this.loadingUser = false; }
+    });
   }
-//******************************************************************************tercerPost */
-  CartBaseUrl: string = 'https://fakestoreapi.com/carts';
+
+  /* ══════════════════════════════════════════════════
+     TERCER POST — Carrito (ngModel)
+  ══════════════════════════════════════════════════ */
+  cartUrl = 'https://fakestoreapi.com/carts';
 
   form3: CreateCart = {
     userId: 0,
     date: '',
-    products: [
-      {
-        productId: 0,
-        quantity: 0,
-      }
-    ]
+    products: [{ productId: 0, quantity: 0 }]
   };
 
   cartPostUser: CartResponse | null = null;
-
-  loadingCart = false;
+  loadingCart      = false;
   errorMessageCart = '';
 
-  CartPost(): void{
+  CartPost(): void {
     this.errorMessageCart = '';
-    this.createdPostUser = null;
+    this.cartPostUser     = null;
 
-    if (!this.userBaseUrl.trim()) {
-      this.errorMessageCart = 'La URL del API es obligatoria.';
-      return;
-    }
-
-    if (this.form3.userId <= 0 || !this.form3.date.trim() || this.form3.products[0].productId <= 0 ||
-       this.form3.products[0].quantity <= 0) {
-      this.errorMessageCart = 'Todos los datos necesarios.';
+    if (this.form3.userId <= 0 || !this.form3.date.trim() ||
+        this.form3.products[0].productId <= 0 || this.form3.products[0].quantity <= 0) {
+      this.errorMessageCart = 'Todos los campos son obligatorios.';
       return;
     }
 
     this.loadingCart = true;
-
-    this.postsApi.createCart(this.CartBaseUrl.trim(), this.form3)
-      .subscribe({
-        next: (res) => {
-          this.cartPostUser = res;
-          this.loadingCart = false;
-        },
-        error: (err) => {
-          this.loadingCart = false;
-
-          console.error('STATUS:', err.status);
-          console.error('ERROR BODY:', err.error);
-          console.error('FULL ERROR:', err);
-
-          this.errorMessageUser = `Error ${err.status}`;
-        }
-      });
+    this.postsApi.createCart(this.cartUrl, this.form3).subscribe({
+      next: res  => { this.cartPostUser     = res;  this.loadingCart = false; },
+      error: err => { this.errorMessageCart = `Error ${err.status}`; this.loadingCart = false; }
+    });
   }
 }
