@@ -49,6 +49,15 @@ export interface CartResponse {
   products: { productId: number; quantity: number }[];
 }
 
+/* ─── CUARTO POST: Login ─── */
+export interface CreateLogin {
+  username: string;
+  password: string;
+}
+export interface LoginResponse {
+  token: string;
+}
+
 /* ─────────────────────────────────────────────────── */
 
 @Injectable({ providedIn: 'root' })
@@ -86,5 +95,10 @@ export class CrudCrudPostsService {
   // Tercer POST — Crear carrito
   createCart(baseUrl: string, payload: CreateCart): Observable<CartResponse> {
     return this.http.post<CartResponse>(baseUrl, payload);
+  }
+
+  // Cuarto POST — Login usuario
+  loginUser(baseUrl: string, payload: CreateLogin): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(baseUrl, payload);
   }
 }

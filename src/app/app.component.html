@@ -180,13 +180,34 @@
     </div>
 
     <!-- ═══════════════════════════════════════════
-         CUARTO POST — Espacio reservado
+         CUARTO POST — Login
     ═══════════════════════════════════════════ -->
-    <div class="card card--placeholder">
-      <div class="placeholder-inner">
-        <span class="placeholder-badge">04</span>
-        <p class="placeholder-title">Próximamente</p>
-        <p class="placeholder-sub">Espacio reservado para el cuarto POST</p>
+    <div class="card">
+      <div class="card-header card-header--blue">
+        <div class="badge-wrap">
+          <span class="badge">04</span>
+        </div>
+        <h2>Login de Usuario</h2>
+        <p class="endpoint">POST /auth/login</p>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label>Usuario</label>
+          <input type="text" [(ngModel)]="form4.username" placeholder="johnd" />
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <input type="password" [(ngModel)]="form4.password" placeholder="m38rmF$" />
+        </div>
+        <button class="btn btn--blue" (click)="LoginPost()" [disabled]="loadingLogin">
+          <span *ngIf="!loadingLogin">Enviar POST</span>
+          <span *ngIf="loadingLogin">Enviando...</span>
+        </button>
+        <p *ngIf="errorMessageLogin" class="msg msg--error">⚠ {{ errorMessageLogin }}</p>
+        <div *ngIf="loginPostResponse" class="result">
+          <p class="result-title">✔ Login exitoso</p>
+          <pre>{{ loginPostResponse | json }}</pre>
+        </div>
       </div>
     </div>
   </div>
